@@ -1,0 +1,104 @@
+version: "2.1"
+services:
+
+
+  zookeeper:
+    image: wurstmeister/zookeeper
+    container_name: zookeeper
+    ports:
+      - "2181:2181"
+    networks:
+      - kafka-net
+  kafka:
+    image: wurstmeister/kafka
+    container_name: kafka
+    ports:
+      - "9092:9092"
+    environment:
+      KAFKA_ADVERTISED_LISTENERS: INSIDE://kafka:9092,OUTSIDE://localhost:9093
+      KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: INSIDE:PLAINTEXT,OUTSIDE:PLAINTEXT
+      KAFKA_LISTENERS: INSIDE://0.0.0.0:9092,OUTSIDE://0.0.0.0:9093
+      KAFKA_INTER_BROKER_LISTENER_NAME: INSIDE
+      KAFKA_ZOOKEEPER_CONNECT: zookeeper:2181
+      KAFKA_CREATE_TOPICS: "baeldung:1:1"
+    networks:
+      - kafka-net
+
+  ksqldb-server:
+    image: confluentinc/ksqldb-server:latest
+    container_name: ksqldb-server
+    ports:
+      - "8088:8088"
+    environment:
+      KSQL_LISTENERS: "http://0.0.0.0:8088"
+      KSQL_BOOTSTRAP_SERVERS: "kafka:9092"
+      KSQL_KSQL_SCHEMA_REGISTRY_URL: "http://schema-registry:8081"
+      KSQL_KSQL_LOGGING_PROCESSING_STREAM_AUTO_CREATE: "true"
+      KSQL_KSQL_LOGGING_PROCESSING_TOPIC_AUTO_CREATE: "true"
+    networks:
+      - kafka-net
+
+  ksqldb-cli:
+    image: confluentinc/ksqldb-cli:latest
+    container_name: ksqldb-cli
+    depends_on:
+      - ksqldb-server
+    entrypoint: /bin/sh
+    tty: true
+    environment:
+      KSQLDB_SERVER: "http://ksqldb-server:8088"
+    networks:
+      - kafka-net  
+      
+  participant-client:
+    container_name: participant-client
+    build:
+      context: ./participant-client/
+      dockerfile: Dockerfile
+      target: development
+    ports:
+      - 127.0.0.1:5173:5173
+    volumes:
+      - ./participant-client/:/app
+    restart: unless-stopped
+    stdin_open: true
+    tty: true
+    environment:
+      - CHOKIDAR_USEPOLLING=true
+
+  admin-client:
+    container_name: admin-client
+    build:
+      context: ./admin-client/
+      dockerfile: Dockerfile
+      target: development
+    ports:
+      - 127.0.0.1:5174:5173
+    volumes:
+      - ./admin-client/:/app
+    restart: unless-stopped
+    stdin_open: true
+    tty: true
+    environment:
+      - CHOKIDAR_USEPOLLING=true
+
+  backend:
+    env_file:
+      - backend/.env
+    container_name: backend
+    build: backend
+    ports:
+      - "127.0.0.1:5123:5000"
+    networks:
+      - backend
+    environment:
+      - FLASK_APP=wsgi:app
+    volumes:
+      - ./backend:/app
+    entrypoint:
+      ["/bin/sh", "-c", "chmod +x /app/init-dev.sh && /app/init-dev.sh"]
+
+networks:
+  backend:
+  kafka-net:
+    driver: bridge
