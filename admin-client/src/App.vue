@@ -1,13 +1,20 @@
 <template>
   <div id="app">
     <h1>Welcome Admin!</h1>    
+    <NewQuestion :socket="socket" />
   </div>
 </template>
 <script>
 import io from 'socket.io-client';
 
+import NewQuestion from './components/NewQuestion.vue';
+
+
 export default {
   name: 'App',
+  components: {
+    NewQuestion
+  },
   created: function() {
     console.log("Starting connection to WebSocket Server");
     const socket = io.connect('http://127.0.0.1:5123/');
