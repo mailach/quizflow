@@ -39,6 +39,10 @@
         required: true
       }
     },
+    created: function() {
+        console.log(this.socket);
+
+    },
     data() {
       return {
         question: {

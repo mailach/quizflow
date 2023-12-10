@@ -1,7 +1,7 @@
 <template>
   <div id="app">
     <h1>Welcome Admin!</h1>    
-    <NewQuestion :socket="socket" />
+    <NewQuestion :socket="this.socket" />
   </div>
 </template>
 <script>
@@ -15,20 +15,25 @@ export default {
   components: {
     NewQuestion
   },
+  data() {
+    return {
+      socket: null, // Initialize socket as null
+    };
+  },
   created: function() {
     console.log("Starting connection to WebSocket Server");
-    const socket = io.connect('http://127.0.0.1:5123/');
+    this.socket = io.connect('http://127.0.0.1:5123/');
     
-    socket.on('connect', function () {
+    this.socket.on('connect', function () {
       console.log('Connected to webSocket');
       //sending to server
-      socket.emit('test', {});
-    });
+      this.socket.emit('test', {});
+    }.bind(this));
 
-    socket.on('status', function(data) {
+    this.socket.on('status', function(data) {
                 console.log("STATUS RECEIVED")
                 console.log(data)
-                });
+                }.bind(this));
   }  
 }
 
