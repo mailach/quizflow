@@ -1,4 +1,4 @@
-version: "2.1"
+version: "3"
 services:
 
 
@@ -89,16 +89,25 @@ services:
     build: backend
     ports:
       - "127.0.0.1:5123:5000"
-    networks:
-      - backend
     environment:
       - FLASK_APP=wsgi:app
     volumes:
       - ./backend:/app
     entrypoint:
-      ["/bin/sh", "-c", "chmod +x /app/init-dev.sh && /app/init-dev.sh"]
+    - /bin/sh
+    - -c
+    - |
+      #!/bin/sh
+      while ! nc -z kafka 9092; do
+        echo "Waiting for Kafka to be ready..."
+        sleep 1
+      done
+      chmod +x /app/init-dev.sh && /app/init-dev.sh
+    depends_on:
+      - kafka
+    networks:
+      - kafka-net  
 
 networks:
-  backend:
   kafka-net:
     driver: bridge

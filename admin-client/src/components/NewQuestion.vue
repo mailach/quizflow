@@ -57,7 +57,7 @@
     },
     methods: {
       submitQuestion() {
-        this.socket.emit('newQuestion', this.question);
+        this.socket.emit('create-question', this.question);
         console.log('Question submitted:', this.question);
         this.resetForm();
       },

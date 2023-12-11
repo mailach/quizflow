@@ -1,8 +1,11 @@
 import os
+import json
+from kafka import KafkaProducer
 
 from flask import Flask
 from flask_socketio import SocketIO
 from flask_cors import CORS
+
 
 # from flask_sqlalchemy import SQLAlchemy
 # from flask_migrate import Migrate
@@ -11,6 +14,9 @@ from flask_cors import CORS
 # db = SQLAlchemy()
 # migrate = Migrate()
 socketio = SocketIO()
+producer = KafkaProducer(bootstrap_servers=['kafka:9092'],
+    value_serializer=lambda v: json.dumps(v).encode('utf-8'))
+
 
 
 # PG_PW = os.environ.get("POSTGRES_PASSWORD")
