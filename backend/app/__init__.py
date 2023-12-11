@@ -36,8 +36,11 @@ def create_app(debug=False):
     # db.init_app(app)
     # migrate.init_app(app, db)
 
-    from .main import main as main_blueprint
-    app.register_blueprint(main_blueprint)
+    from .participant import participant
+    app.register_blueprint(participant)
+
+    from .admin import admin
+    app.register_blueprint(admin)
 
     socketio.init_app(app, cors_allowed_origins="*")
     return app

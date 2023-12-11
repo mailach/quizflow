@@ -22,7 +22,7 @@ export default {
   },
   created: function() {
     console.log("Starting connection to WebSocket Server");
-    this.socket = io.connect('http://127.0.0.1:5123/');
+    this.socket = io.connect('http://127.0.0.1:5123/admin');
     
     this.socket.on('connect', function () {
       console.log('Connected to webSocket');

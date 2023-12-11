@@ -4,7 +4,7 @@ from .. import socketio
 
 @socketio.on('test', namespace='/')
 def test(message):
-    emit('status', {'msg': 'Yep, test successful'})
+    emit('status', {'msg': 'Yep, participant test successful'})
 
 
 
