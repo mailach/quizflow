@@ -34,7 +34,6 @@ export default {
   },
   created: function() {
     this.initializeSocket();
-    this.fetchQuestions();
   },
   methods: {
     initializeSocket() {
@@ -43,25 +42,24 @@ export default {
     
       this.socket.on('connect', function () {
         console.log('Connected to webSocket');
-        this.socket.emit('test', {});
+        this.socket.emit('get-questions', {});
       }.bind(this));
+      
+      this.socket.on('questions', function(data) {
+        console.log("Questions received")
+        console.log(data["questions"])
+        this.questions = data["questions"]
+      }.bind(this));
+
 
       this.socket.on('status', function(data) {
         console.log("STATUS RECEIVED")
         console.log(data)
       }.bind(this));
     },
-    async fetchQuestions() {
-      try {
-        const response = await axios.get('http://backend:5123/questions');
-        this.questions = response.data;
-      } catch (error) {
-        console.error('Error fetching questions:', error);
-      }
-    },
     handleQuestionAdded() {
-      this.fetchQuestions(); // Fetch updated questions
       this.showNewQuestionForm = false; // Hide the form
+      this.socket.emit("get-questions");
     }
   } // Added missing closing bracket for methods
 }
