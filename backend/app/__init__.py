@@ -7,6 +7,7 @@ from flask_socketio import SocketIO
 from flask_cors import CORS
 
 
+
 # from flask_sqlalchemy import SQLAlchemy
 # from flask_migrate import Migrate
 
@@ -14,7 +15,7 @@ from flask_cors import CORS
 # db = SQLAlchemy()
 # migrate = Migrate()
 socketio = SocketIO()
-producer = KafkaProducer(bootstrap_servers=['kafka:9092'],
+kafka_producer = KafkaProducer(bootstrap_servers=['kafka:9092'],
     value_serializer=lambda v: json.dumps(v).encode('utf-8'), 
     key_serializer=lambda v: v.encode('utf-8'))
 
