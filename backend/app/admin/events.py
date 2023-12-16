@@ -13,11 +13,7 @@ def test(message):
     kafka_producer.send("create-questions", key=key, value=message)
 
     response = query_ksql("Select * from QUESTIONS_TABLE;")
-    for line in response.iter_lines():
-        if line:
-            decoded_line = line.decode('utf-8')
-            json_data = json.loads(decoded_line)
-            logging.error(json_data)
+    logging.error(response)
 
     kafka_producer.flush()
     emit('status', {'msg': 'Send create-question event'})
