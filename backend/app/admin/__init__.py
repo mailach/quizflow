@@ -1,5 +1,4 @@
 from flask import Blueprint
 
-admin = Blueprint('admin', __name__)
-
-from . import routes, events
+from .routes import admin
+from . import events

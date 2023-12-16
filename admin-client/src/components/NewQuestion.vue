@@ -56,11 +56,12 @@
       };
     },
     methods: {
-      submitQuestion() {
-        this.socket.emit('create-question', this.question);
-        console.log('Question submitted:', this.question);
-        this.resetForm();
-      },
+    submitQuestion() {
+      this.socket.emit('create-question', this.question);
+      console.log('Question submitted:', this.question);
+      this.resetForm();
+      this.$emit('question-added'); // Emit custom event
+    },
       resetForm() {
         this.question = {
           id: '',

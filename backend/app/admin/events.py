@@ -12,8 +12,5 @@ def test(message):
     key = message['id']
     kafka_producer.send("create-questions", key=key, value=message)
 
-    response = query_ksql("Select * from QUESTIONS_TABLE;")
-    logging.error(response)
-
     kafka_producer.flush()
     emit('status', {'msg': 'Send create-question event'})
