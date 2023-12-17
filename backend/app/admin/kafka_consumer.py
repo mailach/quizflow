@@ -7,7 +7,7 @@ class KafkaConsumerThread:
     def __init__(self, socketio):
         self.logger = logging.getLogger(self.__class__.__name__)
         self.consumer = KafkaConsumer(
-            'create-questions',
+            'question-table',
             bootstrap_servers=['kafka:9092'])
         self.socketio = socketio
         logging.info("CONSUMER CREATED")
@@ -18,7 +18,7 @@ class KafkaConsumerThread:
             self.logger.info("Consumer received messages %r...", message)
             topic = message.topic
             self.logger.info("Consumer received topic %r...", topic)
-            if topic == 'create-questions':
+            if topic == 'question-table':
                 self.logger.info("Emitting questions...")
                 self.socketio.emit('questions', {'questions': query_ksql("Select * from QUESTIONS_TABLE;")}, namespace="/admin")
             elif topic == 'B':
