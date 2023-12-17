@@ -42,24 +42,20 @@ export default {
     
       this.socket.on('connect', function () {
         console.log('Connected to webSocket');
-        this.socket.emit('get-questions', {});
+        this.socket.emit('get-questions');
+        console.log("Questions requested...")
       }.bind(this));
       
       this.socket.on('questions', function(data) {
         console.log("Questions received")
-        console.log(data["questions"])
         this.questions = data["questions"]
       }.bind(this));
 
-
-      this.socket.on('status', function(data) {
-        console.log("STATUS RECEIVED")
-        console.log(data)
-      }.bind(this));
     },
     handleQuestionAdded() {
       this.showNewQuestionForm = false; // Hide the form
       this.socket.emit("get-questions");
+      console.log("Questions requested...")
     }
   } // Added missing closing bracket for methods
 }
