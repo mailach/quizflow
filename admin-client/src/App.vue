@@ -54,8 +54,8 @@ export default {
     },
     handleQuestionAdded() {
       this.showNewQuestionForm = false; // Hide the form
-      this.socket.emit("get-questions");
-      console.log("Questions requested...")
+      //this.socket.emit("get-questions");
+      //console.log("Questions requested...")
     }
   } // Added missing closing bracket for methods
 }

@@ -6,7 +6,28 @@ from flask import Flask
 from flask_socketio import SocketIO
 from flask_cors import CORS
 
+from logging.config import dictConfig
 
+
+
+dictConfig(
+    {
+        "version": 1,
+        "formatters": {
+            "default": {
+                "format": "[%(asctime)s] %(levelname)s in %(module)s: %(message)s",
+            }
+        },
+        "handlers": {
+            "wsgi": {
+                "class": "logging.StreamHandler",
+                "stream": "ext://flask.logging.wsgi_errors_stream",
+                "formatter": "default",
+            }
+        },
+        "root": {"level": "INFO", "handlers": ["wsgi"]},
+    }
+)
 
 # from flask_sqlalchemy import SQLAlchemy
 # from flask_migrate import Migrate
@@ -47,9 +68,10 @@ def create_app(debug=False):
     from .participant import participant
     app.register_blueprint(participant)
 
-    from .admin import admin
+    from .admin import admin, start_kafka_listener
     app.register_blueprint(admin)
-
+    
     socketio.init_app(app, cors_allowed_origins="*")
+    start_kafka_listener(socketio)
     return app
 
