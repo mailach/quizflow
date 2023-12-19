@@ -1,8 +1,8 @@
 <template>
-    <v-container>
+    <v-container class="new-question-container">
       <v-row justify="center">
         <v-col cols="12" md="8">
-          <h2>Create New Question</h2>
+          <h3>Create New Question</h3>
           <v-form @submit.prevent="submitQuestion">
             <v-text-field
               label="Quiz Round"
@@ -57,6 +57,8 @@
   import { ref } from 'vue';
   import { defineProps } from 'vue';
   
+  const emit = defineEmits(['close-dialog']);
+
   // Define props
   const props = defineProps({
     socket: {
@@ -81,7 +83,7 @@
     props.socket.emit('create-question', question.value);
     console.log('Question submitted:', question.value);
     resetForm();
-    // Emit event
+    emit('close-dialog');
   };
   
   const resetForm = () => {
@@ -97,6 +99,9 @@
   </script>
   
   <style scoped>
-    /* Vuetify styles and any custom styles */
-  </style>
+  .new-question-container{
+    background: black;
+    border-radius: 20px;
+  }
+</style>
   

@@ -1,14 +1,13 @@
 
 <template>
+  <v-container>
+    <v-row justify="center">
+      <v-col cols="12">
       <h1>Welcome Admin!</h1>
-        <v-btn @click="showNewQuestionForm = !showNewQuestionForm">
-          New Question
-        </v-btn>
-        <NewQuestion 
-          v-if="showNewQuestionForm" 
-          :socket="socket" 
-          @question-added="handleQuestionAdded" />
-      <QuestionList :questions="questions" />
+      <QuestionList :questions="questions" :socket="socket" />
+      </v-col>
+    </v-row>
+  </v-container>
 </template>
 
 <script lang="ts" setup>
