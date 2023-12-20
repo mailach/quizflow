@@ -15,13 +15,13 @@
                 </v-list>
               </v-expansion-panel-text>
               <!-- Button to open dialog -->
-              <v-btn v-if="expandedPanel==round" @click="openCreateDialog(round)">
-                Create Question
+              <v-btn v-if="expandedPanel==round" @click="openCreateDialog(round)" class="add-btn">
+                <v-icon icon="fa-solid fa-plus" class="add-icon"></v-icon>
               </v-btn>                
                 <!-- Dialog for creating new question -->
                 <v-dialog v-model="dialog" persistent max-width="600px" class="custom-dialog">
                         <v-btn icon class="dialog-close-btn" @click="dialog = false">
-                          <v-icon>mdi-close</v-icon>
+                          <v-icon icon="fa-solid fa-xmark"></v-icon>
                         </v-btn>
                 <NewQuestion :round="selectedRound" :socket="socket" @close-dialog="dialog = false" />
                 </v-dialog>
@@ -75,6 +75,14 @@
   <style scoped>
   .custom-dialog .v-dialog__content {
     background: white;
+  }
+
+  .add-btn{
+    opacity: calc(var(--v-activated-opacity) * var(--v-theme-overlay-multiplier));
+  }
+
+  .add-icon{
+    color: white;
   }
 
   .dialog-close-btn {
