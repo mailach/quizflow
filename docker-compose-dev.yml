@@ -70,7 +70,7 @@ services:
       dockerfile: Dockerfile
       target: development
     ports:
-      - 127.0.0.1:5174:5173
+      - 127.0.0.1:5174:3000
     volumes:
       - ./admin-client/:/app
     restart: unless-stopped

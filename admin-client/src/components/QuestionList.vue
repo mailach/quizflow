@@ -4,13 +4,16 @@
         <v-col cols="12">
           <h2>Existing Questions</h2>
           <v-expansion-panels v-model="expandedPanel" variant="popout">
-            <v-expansion-panel v-for="(questions, round) in groupedByRound" :key="round" >
+            <v-expansion-panel v-for="(questions, round) in groupedByRound" :key="round" class="exp-panel" >
               <v-expansion-panel-title>Round {{ round }}</v-expansion-panel-title>
               <v-expansion-panel-text>
-                <v-list>
-                  <v-list-item v-for="question in questions" :key="question.id">
+                <v-list class="question-list">
+                  <v-list-item v-for="question in questions" :key="question.id" class="question">
                     <!-- Directly place your content here -->
-                    {{ question.text }} - Points: {{ question.points }}
+                    {{ question }}
+                    <v-btn  @click="deleteQuestion(question)" class="add-btn">
+                      <v-icon icon="fa-solid fa-trash" class="add-icon"></v-icon>
+                    </v-btn> 
                   </v-list-item>
                 </v-list>
               </v-expansion-panel-text>
@@ -27,6 +30,17 @@
                 </v-dialog>
             </v-expansion-panel>
           </v-expansion-panels>
+
+          <v-btn v-if="expandedPanel==round" @click="openCreateDialog(round)" class="add-btn">
+            <v-icon icon="fa-solid fa-plus" class="add-icon"></v-icon>
+          </v-btn>                
+            <!-- Dialog for creating new question -->
+            <v-dialog v-model="dialog" persistent max-width="600px" class="custom-dialog">
+                    <v-btn icon class="dialog-close-btn" @click="dialog = false">
+                      <v-icon icon="fa-solid fa-xmark"></v-icon>
+                    </v-btn>
+            <NewQuestion :round="selectedRound" :socket="socket" @close-dialog="dialog = false" />
+            </v-dialog>
         </v-col>
       </v-row>
     </v-container>
@@ -58,6 +72,11 @@
     dialog.value = true;
     };
 
+    const deleteQuestion = (question) => {
+    props.socket.emit('delete-question', question);
+    };
+
+
 
   const groupedByRound = computed(() => {
     const rounds = {};
@@ -73,16 +92,15 @@
   });
   </script>
   <style scoped>
-  .custom-dialog .v-dialog__content {
-    background: white;
-  }
 
-  .add-btn{
-    opacity: calc(var(--v-activated-opacity) * var(--v-theme-overlay-multiplier));
+
+  .question-list{
+    min-width: 100%;
   }
 
   .add-icon{
-    color: white;
+    
+    color: rgb(var(--v-theme-primary))
   }
 
   .dialog-close-btn {
@@ -90,5 +108,14 @@
     top: 0;
     right: 0;
     z-index: 5; /* Ensure it's above other dialog content */
+  }
+
+  .question{
+    min-width: 100%;
+  }
+  .exp-panel{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
   }
 </style>

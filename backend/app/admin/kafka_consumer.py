@@ -20,6 +20,6 @@ class KafkaConsumerThread:
             self.logger.info("Consumer received topic %r...", topic)
             if topic == 'question-table':
                 self.logger.info("Emitting questions...")
-                self.socketio.emit('questions', {'questions': query_ksql("Select * from QUESTIONS_TABLE;")}, namespace="/admin")
+                self.socketio.emit('questions', {'questions': [q for q in query_ksql("Select * from QUESTIONS_TABLE;") if q["deleted"]==0]}, namespace="/admin")
             elif topic == 'B':
                 self.socketio.emit('message', 'TOPIC B EVENT')
