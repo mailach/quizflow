@@ -3,7 +3,6 @@
   <v-container>
     <v-row justify="center">
       <v-col cols="12">
-      <h1>Welcome Admin!</h1>
       <QuestionList :questions="questions" :socket="socket" />
       </v-col>
     </v-row>
