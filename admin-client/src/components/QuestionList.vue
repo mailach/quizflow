@@ -18,29 +18,45 @@
                 </v-list>
               </v-expansion-panel-text>
               <!-- Button to open dialog -->
-              <v-btn v-if="expandedPanel==round" @click="openCreateDialog(round)" class="add-btn">
-                <v-icon icon="fa-solid fa-plus" class="add-icon"></v-icon>
+              <v-btn v-if="expandedPanel==round" @click="openQuestionDialog(round)" class="add-btn">
+                <v-icon icon="fa-solid fa-plus" class="add-icon"></v-icon> <p>Question</p>
               </v-btn>                
                 <!-- Dialog for creating new question -->
-                <v-dialog v-model="dialog" persistent max-width="600px" class="custom-dialog">
-                        <v-btn icon class="dialog-close-btn" @click="dialog = false">
+                <v-dialog v-model="questionDialog" persistent max-width="600px" class="custom-dialog">
+                        <v-btn icon class="dialog-close-btn" @click="questionDialog = false">
                           <v-icon icon="fa-solid fa-xmark"></v-icon>
                         </v-btn>
-                <NewQuestion :round="selectedRound" :socket="socket" @close-dialog="dialog = false" />
+                <NewQuestion :round="selectedRound" :socket="socket" @close-dialog="questionDialog = false" />
                 </v-dialog>
+
+
+                
             </v-expansion-panel>
           </v-expansion-panels>
 
-          <v-btn v-if="expandedPanel==round" @click="openCreateDialog(round)" class="add-btn">
-            <v-icon icon="fa-solid fa-plus" class="add-icon"></v-icon>
+          <v-btn v-if="expandedPanel==round" @click="openQuestionDialog(round)" class="add-btn">
+            <v-icon icon="fa-solid fa-plus" class="add-icon"></v-icon> <p>Question</p>
           </v-btn>                
             <!-- Dialog for creating new question -->
-            <v-dialog v-model="dialog" persistent max-width="600px" class="custom-dialog">
-                    <v-btn icon class="dialog-close-btn" @click="dialog = false">
+            <v-dialog v-model="questionDialog" persistent max-width="600px" class="custom-dialog">
+                    <v-btn icon class="dialog-close-btn" @click="questionDialog = false">
                       <v-icon icon="fa-solid fa-xmark"></v-icon>
                     </v-btn>
-            <NewQuestion :round="selectedRound" :socket="socket" @close-dialog="dialog = false" />
+            <NewQuestion :round="selectedRound" :socket="socket" @close-dialog="questionDialog = false" />
             </v-dialog>
+
+
+
+            <v-btn @click="openRoundDialog()" class="add-btn">
+              <v-icon icon="fa-solid fa-plus" class="add-icon"></v-icon><p>Round</p>
+            </v-btn>                
+              <!-- Dialog for creating new question -->
+              <v-dialog v-model="roundDialog" persistent max-width="600px" class="custom-dialog">
+                      <v-btn icon class="dialog-close-btn" @click="roundDialog = false">
+                        <v-icon icon="fa-solid fa-xmark"></v-icon>
+                      </v-btn>
+              <NewRound :socket="socket" @close-dialog="roundDialog = false" />
+              </v-dialog>
         </v-col>
       </v-row>
     </v-container>
@@ -51,6 +67,7 @@
   <script setup>
   import { defineProps, computed, ref } from 'vue';
   import NewQuestion from '@/components/NewQuestion.vue';
+  import NewRound from '@/components/NewRound.vue';
 
   
   const props = defineProps({
@@ -64,12 +81,18 @@
     }
   });
   const expandedPanel = ref(null); // Tracks the currently opened panel
-    const dialog = ref(false);
+    const questionDialog = ref(false);
+    const roundDialog = ref(false);
     const selectedRound = ref(0);
+    const round = ref(undefined);
 
-    const openCreateDialog = (round) => {
+    const openQuestionDialog = (round) => {
     selectedRound.value = round;
-    dialog.value = true;
+    questionDialog.value = true;
+    };
+
+    const openRoundDialog = () => {
+    roundDialog.value = true;
     };
 
     const deleteQuestion = (question) => {
@@ -100,7 +123,16 @@
 
   .add-icon{
     
-    color: rgb(var(--v-theme-primary))
+    color: rgb(var(--v-theme-primary));
+  }
+
+  .add-btn{
+    
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-around
+
   }
 
   .dialog-close-btn {

@@ -9,7 +9,7 @@
     "preview": "vite preview"
   },
   "dependencies": {
-    "rollup": "^4.9.1",
+    "rollup": "^4.9.4",
     "socket.io-client": "^4.7.2",
     "vue": "^3.3.8",
     "vue-session": "^1.0.0",

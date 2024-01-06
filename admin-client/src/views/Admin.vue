@@ -10,15 +10,12 @@
 </template>
 
 <script lang="ts" setup>
-console.log("TEST")
 import io from 'socket.io-client';
 import QuestionList from '@/components/QuestionList.vue';
-import NewQuestion from '@/components/NewQuestion.vue';
 import { ref, onMounted } from 'vue';
 
 // Define reactive variables
 const questions = ref([]);
-let showNewQuestionForm = ref(false);
 const socket = io('http://127.0.0.1:5123/admin');
 
 onMounted(() => {
@@ -42,9 +39,6 @@ function initializeSocket() {
 
   
 }
-function handleQuestionAdded() {
-      this.showNewQuestionForm = false; 
-    }
 
 
 
