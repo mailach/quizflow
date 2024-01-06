@@ -37,6 +37,13 @@ function initializeSocket() {
     questions.value = data["questions"];
   });
 
+  socket.on('rounds', (data) => {
+    console.log("Rounds received");
+    console.log(data);
+    console.log(data["rounds"])
+    //questions.value = data["questions"];
+  });
+
   
 }
 

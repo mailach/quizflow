@@ -9,9 +9,8 @@
             <v-col cols="12" md="12">
               <v-text-field
                 label="Quiz Round"
-                v-model.number="round.id"
+                v-model="round.id"
                 class="q-input-field"
-                type="number"
                 required
                 solo
                 flat
@@ -60,9 +59,9 @@
   
   // Reactive state
   const round = ref({
-    id: undefined,
+    id: '',
     title: '',
-    active: "",
+    active: '',
   });
   
   const boolChoice = ref(["true", "false"])
