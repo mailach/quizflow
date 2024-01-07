@@ -54,18 +54,19 @@
     socket: {
       type: Object,
       required: true
+    },
+    originRound: {
+      type: Object,
+      required: true
     }
   });
   
   // Reactive state
-  const round = ref({
-    id: '',
-    title: '',
-    active: '',
-  });
-  
   const boolChoice = ref(["true", "false"])
 
+  const round = ref(props.originRound)
+  console.log(props.originRound)
+  console.log(round)
   console.log(round.value)
   // Methods
   const submitRound = () => {
