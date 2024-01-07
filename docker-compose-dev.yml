@@ -18,10 +18,13 @@ services:
       - "9092:9092"
     networks:
       - kafka-net
+    entrypoint: bash -c "sleep 20 && start-kafka.sh"
+
 
   ksqldb-server:
-    image: confluentinc/ksqldb-server:0.29.0
-    
+    build:
+      context: ./ksqldb/server/
+      dockerfile: Dockerfile
     container_name: ksqldb-server
     ports:
       - 8088:8088
@@ -35,17 +38,17 @@ services:
 
   ksqldb-cli:
     build:
-      context: ./ksqldb-server/
+      context: ./ksqldb/cli/
       dockerfile: Dockerfile
     container_name: ksqldb-cli
     depends_on:
       - ksqldb-server
-    entrypoint: /etc/ksqldb/entrypoint.sh
     tty: true
     environment:
       KSQLDB_SERVER: "http://ksqldb-server:8088"
     networks:
       - kafka-net  
+    entrypoint: /etc/ksqldb/entrypoint.sh
       
   participant-client:
     container_name: participant-client

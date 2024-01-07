@@ -12,6 +12,11 @@ def get_questions():
     logging.info(query_ksql("Select * from QUESTIONS_TABLE;"))
     logging.info("Questions emitted")
 
+@socketio.on('get-rounds', namespace='/admin')
+def get_rounds():
+    emit('rounds', {'rounds': query_ksql("Select * from ROUNDS_TABLE;")}, namespace="/admin")
+    logging.info("Rounds emitted")
+
 @socketio.on('create-question', namespace='/admin')
 def create_question(message):
     logging.info("Save question %r", message)

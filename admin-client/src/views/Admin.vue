@@ -29,7 +29,8 @@ function initializeSocket() {
   socket.on('connect', () => {
     console.log('Connected to webSocket');
     socket.emit('get-questions');
-    console.log("Questions requested...");
+    socket.emit('get-rounds');
+    console.log("Questions and rounds requested...");
   });
 
   socket.on('questions', (data) => {
