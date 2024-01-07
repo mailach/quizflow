@@ -3,7 +3,7 @@
   <v-container>
     <v-row justify="center">
       <v-col cols="12">
-      <QuestionList :questions="questions" :socket="socket" />
+      <QuestionList :rounds="rounds" :questions="questions" :socket="socket" />
       </v-col>
     </v-row>
   </v-container>
@@ -16,6 +16,7 @@ import { ref, onMounted } from 'vue';
 
 // Define reactive variables
 const questions = ref([]);
+const rounds = ref([]);
 const socket = io('http://127.0.0.1:5123/admin');
 
 onMounted(() => {
@@ -40,9 +41,8 @@ function initializeSocket() {
 
   socket.on('rounds', (data) => {
     console.log("Rounds received");
-    console.log(data);
-    console.log(data["rounds"])
-    //questions.value = data["questions"];
+    console.log("Rounds received");
+    rounds.value = data["rounds"];
   });
 
   

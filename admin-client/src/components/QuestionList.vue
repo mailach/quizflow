@@ -4,11 +4,11 @@
       <v-row justify="center">
         <v-col cols="12">
           <v-expansion-panels v-model="expandedPanel" variant="popout">
-            <v-expansion-panel v-for="(questions, round) in groupedByRound" :key="round" class="exp-panel" >
+            <v-expansion-panel v-for="round in rounds" :key="round" class="exp-panel" >
               <v-expansion-panel-title>Round {{ round }}</v-expansion-panel-title>
               <v-expansion-panel-text>
                 <v-list class="question-list">
-                  <v-list-item v-for="question in questions" :key="question.id" class="question">
+                  <v-list-item v-for="question in groupedByRound[round['id']]" :key="question.id" class="question">
                     <!-- Directly place your content here -->
                     {{ question }}
                     <v-btn  @click="deleteQuestion(question)" class="add-btn">
@@ -16,11 +16,12 @@
                     </v-btn> 
                   </v-list-item>
                 </v-list>
+                <v-btn @click="openQuestionDialog(round)" class="add-btn">
+                  <v-icon icon="fa-solid fa-plus" class="add-icon"></v-icon> <p>Question</p>
+                </v-btn> 
               </v-expansion-panel-text>
               <!-- Button to open dialog -->
-              <v-btn v-if="expandedPanel==round" @click="openQuestionDialog(round)" class="add-btn">
-                <v-icon icon="fa-solid fa-plus" class="add-icon"></v-icon> <p>Question</p>
-              </v-btn>                
+                             
                 <!-- Dialog for creating new question -->
                 <v-dialog v-model="questionDialog" persistent max-width="600px" class="custom-dialog">
                         <v-btn icon class="dialog-close-btn" @click="questionDialog = false">
@@ -33,20 +34,6 @@
                 
             </v-expansion-panel>
           </v-expansion-panels>
-
-          <v-btn v-if="expandedPanel==round" @click="openQuestionDialog(round)" class="add-btn">
-            <v-icon icon="fa-solid fa-plus" class="add-icon"></v-icon> <p>Question</p>
-          </v-btn>                
-            <!-- Dialog for creating new question -->
-            <v-dialog v-model="questionDialog" persistent max-width="600px" class="custom-dialog">
-                    <v-btn icon class="dialog-close-btn" @click="questionDialog = false">
-                      <v-icon icon="fa-solid fa-xmark"></v-icon>
-                    </v-btn>
-            <NewQuestion :round="selectedRound" :socket="socket" @close-dialog="questionDialog = false" />
-            </v-dialog>
-
-
-
             <v-btn @click="openRoundDialog()" class="add-btn">
               <v-icon icon="fa-solid fa-plus" class="add-icon"></v-icon><p>Round</p>
             </v-btn>                
@@ -72,6 +59,10 @@
   
   const props = defineProps({
     questions: {
+      type: Array,
+      required: true
+    },
+    rounds: {
       type: Array,
       required: true
     },
