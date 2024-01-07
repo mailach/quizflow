@@ -10,7 +10,7 @@
                 <p>Round {{ round["id"] }}: {{round["title"]}} </p>
                 <div class="panel-icons">
                   <v-btn icon @click="openRoundDialog(round)" class="play-btn">
-                    <v-icon icon="fa-solid fa-gear" class="play-icon"></v-icon>
+                    <v-icon icon="fa-solid fa-pen-to-square" class="play-icon"></v-icon>
                   </v-btn> 
                 <v-btn icon @click="console.log('Play')" class="play-btn">
                   <v-icon icon="fa-solid fa-play" class="play-icon"></v-icon>
