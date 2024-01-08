@@ -9,4 +9,4 @@ RUN chmod +x /app/init.sh
 RUN chmod +x /app/init-dev.sh
 
 
-ENTRYPOINT ["/app/init-dev.sh"]  
+ENTRYPOINT ["/bin/sh", "-c", "chmod +x /app/init-dev.sh && /app/init-dev.sh"]  

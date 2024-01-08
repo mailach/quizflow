@@ -83,16 +83,6 @@ services:
       - FLASK_APP=wsgi:app
     volumes:
       - ./backend:/app
-    entrypoint:
-    - /bin/sh
-    - -c
-    - |
-      #!/bin/sh
-      while ! nc -z kafka 9092; do
-        echo "Waiting for Kafka to be ready..."
-        sleep 1
-      done
-      chmod +x /app/init-dev.sh && /app/init-dev.sh
     depends_on:
       - kafka
     networks:
