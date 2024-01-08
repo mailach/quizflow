@@ -9,6 +9,9 @@ services:
       - "2181:2181"
     networks:
       - kafka-net
+
+
+      
   kafka:
     env_file:
       - .env.dev
@@ -52,32 +55,17 @@ services:
       - kafka-net  
     entrypoint: /etc/ksqldb/entrypoint.sh
       
-  participant-client:
-    container_name: participant-client
-    build:
-      context: ./participant-client/
-      dockerfile: Dockerfile
-      target: development
-    ports:
-      - 127.0.0.1:5173:5173
-    volumes:
-      - ./participant-client/:/app
-    restart: unless-stopped
-    stdin_open: true
-    tty: true
-    environment:
-      - CHOKIDAR_USEPOLLING=true
 
-  admin-client:
-    container_name: admin-client
+  frontend:
+    container_name: frontend
     build:
-      context: ./admin-client/
+      context: ./frontend/
       dockerfile: Dockerfile
       target: development
     ports:
       - 127.0.0.1:5174:3000
     volumes:
-      - ./admin-client/:/app
+      - ./frontend/:/app
     restart: unless-stopped
     stdin_open: true
     tty: true
