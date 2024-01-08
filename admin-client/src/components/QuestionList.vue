@@ -173,7 +173,6 @@
     display: flex;
     flex-direction: row;
     align-items: center;
-    border: 2px solid white;
   }
   .exp-panel{
     display: flex;
