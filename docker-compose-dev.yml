@@ -33,6 +33,8 @@ services:
       KSQL_BOOTSTRAP_SERVERS: "kafka:9092"
       KSQL_KSQL_LOGGING_PROCESSING_STREAM_AUTO_CREATE: "true"
       KSQL_KSQL_LOGGING_PROCESSING_TOPIC_AUTO_CREATE: "true"
+    restart:
+      always
     networks:
       - kafka-net
 

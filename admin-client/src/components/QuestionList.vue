@@ -21,19 +21,25 @@
               </div>
             </div>
               </v-expansion-panel-title>
-              <v-expansion-panel-text>
+              <v-expansion-panel-text >
+                <div class="question-block-in-panel">
                 <v-list class="question-list">
                   <v-list-item v-for="question in groupedByRound[round['id']]" :key="question.id" class="question">
                     <!-- Directly place your content here -->
-                    {{ question }}
+                    <div class="question">
+                    <div>
+                      {{ question["id"] }} {{question["type"]}} {{ question["text"] }} {{ question["points"] }}
+                    </div>
                     <v-btn  @click="deleteQuestion(question)" class="add-btn">
                       <v-icon icon="fa-solid fa-trash" class="add-icon"></v-icon>
                     </v-btn> 
+                  </div>
                   </v-list-item>
                 </v-list>
                 <v-btn @click="openQuestionDialog(round)" class="add-btn">
                   <v-icon icon="fa-solid fa-plus" class="add-icon"></v-icon> <p>Question</p>
                 </v-btn> 
+              </div>
               </v-expansion-panel-text>
               <!-- Button to open dialog -->
                              
@@ -164,6 +170,10 @@
 
   .question{
     min-width: 100%;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    border: 2px solid white;
   }
   .exp-panel{
     display: flex;
@@ -197,4 +207,11 @@
     width: 18%;
     align-items: center;
   }
+
+  .question-block-in-panel{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
 </style>
