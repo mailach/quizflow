@@ -6,7 +6,7 @@ RUN npm install --platform=linuxmusl --arch=arm64
 RUN npm install vite
 RUN npm install rollup
 
-CMD ["/bin/sh", "-c", "npm install rollup && npm run dev"]
+CMD ["/bin/sh", "-c", "npm install && npm run dev"]
 
 
 FROM development as build
