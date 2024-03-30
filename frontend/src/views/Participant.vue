@@ -5,7 +5,7 @@
         <transition name="fade">
           <img v-if="showWelcome" class="welcome-message" src="/quizflow.png" />
         </transition>
-        <v-btn class="register-btn">Register Team</v-btn>
+        <v-btn class="register-btn" @click="redirectToRegistration">Register Team</v-btn>
       </div>
   </v-container>
 </template>
@@ -48,7 +48,9 @@ function initializeSocket() {
   
 }
 
-
+function redirectToRegistration() {
+  window.location.href = '/register';
+}
 
 </script>
 

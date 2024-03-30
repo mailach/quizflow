@@ -75,7 +75,7 @@
   
 
   <script setup>
-  import { defineProps, computed, ref } from 'vue';
+  import { computed, ref } from 'vue';
   import NewQuestion from '@/components/NewQuestion.vue';
   import NewRound from '@/components/NewRound.vue';
 

@@ -1,10 +1,16 @@
+import logging
 from flask_socketio import emit
-from .. import socketio
+from .. import socketio, kafka_producer
 
 
-@socketio.on('test', namespace='/')
-def test(message):
-    emit('status', {'msg': 'Yep, participant test successful'})
+
+@socketio.on('register', namespace='/register')
+def get_questions(message):
+    logging.error(message)
+    emit('registration', {"msg": "successful"})
+
+
+
 
 
 
