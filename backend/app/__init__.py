@@ -65,13 +65,14 @@ def create_app(debug=False):
     # db.init_app(app)
     # migrate.init_app(app, db)
 
-    from .participant import participant
+    from .participant import participant, start_kafka_participant_listener
     app.register_blueprint(participant)
 
-    from .admin import admin, start_kafka_listener
+    from .admin import admin, start_kafka_admin_listener
     app.register_blueprint(admin)
     
     socketio.init_app(app, cors_allowed_origins="*")
-    start_kafka_listener(socketio)
+    start_kafka_admin_listener(socketio)
+    start_kafka_participant_listener(socketio)
     return app
 

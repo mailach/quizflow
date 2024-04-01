@@ -17,6 +17,13 @@ def get_rounds():
     emit('rounds', {'rounds': query_ksql("Select * from ROUNDS_TABLE;")}, namespace="/admin")
     logging.info("Rounds emitted")
 
+
+@socketio.on('get-teams', namespace='/admin')
+def get_teams():
+    emit('teams', {'teams': query_ksql("Select * from TEAMS_TABLE;")}, namespace="/admin")
+    logging.info("Teams emitted")
+
+
 @socketio.on('create-question', namespace='/admin')
 def create_question(message):
     logging.info("Save question %r", message)
@@ -40,4 +47,11 @@ def delete_question(message):
     message["deleted"]=1
     key = message['id']
     kafka_producer.send("question", key=key, value=message)
+    kafka_producer.flush()
+
+
+@socketio.on('activate-team', namespace='/admin')
+def activateTeam(team):
+    logging.info("Delete question %r", team)
+    kafka_producer.send("teams", key=team["id"], value={"id": team["id"], "activated": 1})
     kafka_producer.flush()

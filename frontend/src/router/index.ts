@@ -24,11 +24,19 @@ const routes = [
       },
       {
         path: 'register',
-        name: 'RegisterTeam',
+        name: 'Registration',
         // route level code-splitting
         // this generates a separate chunk (Home-[hash].js) for this route
         // which is lazy-loaded when the route is visited.
-        component: () => import('@/views/RegisterTeam.vue'),
+        component: () => import('@/views/Registration.vue'),
+      },
+      {
+        path: 'quiz',
+        name: 'Quiz',
+        // route level code-splitting
+        // this generates a separate chunk (Home-[hash].js) for this route
+        // which is lazy-loaded when the route is visited.
+        component: () => import('@/views/Quiz.vue'),
       },
     ],
   },
