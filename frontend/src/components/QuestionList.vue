@@ -33,6 +33,9 @@
                     <v-btn  @click="deleteQuestion(question)" class="add-btn">
                       <v-icon icon="fa-solid fa-trash" class="add-icon"></v-icon>
                     </v-btn> 
+                    <v-btn  @click="fireQuestion(question)" class="add-btn">
+                      <v-icon icon="fa-solid fa-play" class="add-icon"></v-icon>
+                    </v-btn> 
                   </div>
                   </v-list-item>
                 </v-list>
@@ -112,6 +115,11 @@
 
     const deleteQuestion = (question) => {
     props.socket.emit('delete-question', question);
+    };
+
+    const fireQuestion = (question) => {
+    console.log("fire:" + question["text"])
+    props.socket.emit('fire-question', question);
     };
 
 

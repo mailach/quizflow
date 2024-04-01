@@ -52,6 +52,11 @@ def delete_question(message):
 
 @socketio.on('activate-team', namespace='/admin')
 def activateTeam(team):
-    logging.info("Delete question %r", team)
     kafka_producer.send("teams", key=team["id"], value={"id": team["id"], "activated": 1})
+    kafka_producer.flush()
+
+@socketio.on('fire-question', namespace='/admin')
+def fire_question(question):
+    logging.info("Fire question %r", question)
+    kafka_producer.send("live", key=question["id"], value={"event": "mc-question", "text": question["text"], "options": question["options"]})
     kafka_producer.flush()
