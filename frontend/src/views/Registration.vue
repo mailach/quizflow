@@ -47,7 +47,7 @@ function initializeSocket() {
 
   socket.on('activation', (data) => {
     console.log("Activation received");
-    localStorage.team = "testestest";
+    localStorage.token = data["token"];
     location.href="quiz"
 
   })

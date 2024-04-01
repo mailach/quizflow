@@ -1,6 +1,7 @@
 # kafka_consumer.py within your admin blueprint directory
 import logging
 import json
+import uuid
 from kafka import KafkaConsumer
 
 class TeamsConsumerThread:
@@ -24,5 +25,5 @@ class TeamsConsumerThread:
                 self.logger.info(message.value)
                 if message.value["ACTIVATED"]==1:
                     logging.error(message.value)
-                    self.socketio.emit('activation',{"name": "test"}, namespace="/register", room=message.value["CLIENT_ID"])
+                    self.socketio.emit('activation',{"token": "7d33cfe9-b9d9-4e05-a45e-7d81aa726be7"}, namespace="/register", room=message.value["CLIENT_ID"])
 

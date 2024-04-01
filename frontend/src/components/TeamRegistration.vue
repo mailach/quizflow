@@ -28,6 +28,8 @@
     async function sendData() {
     console.log(teamname)
     props.socket.emit('register', teamname.value)  
+    localStorage.team = teamname.value;
+
     }
 
 
